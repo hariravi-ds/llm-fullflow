@@ -1,4 +1,12 @@
 import torch
+import tiktoken
+from .dataLoaders import getDatasets
+from .updateModel import updateModel
+
+tokenizer = tiktoken.get_encoding("gpt2")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+train_dataset, val_dataset, test_dataset = getDatasets()
+model = updateModel()
 
 
 def classify_review(text, model, tokenizer, device, max_length=None, pad_token_id=50256):
@@ -43,8 +51,3 @@ text_2 = (
 print(classify_review(
     text_2, model, tokenizer, device, max_length=train_dataset.max_length
 ))
-
-torch.save(model.state_dict(), "review_classifier.pth")
-
-model_state_dict = torch.load("review_classifier.pth")
-model.load_state_dict(model_state_dict)

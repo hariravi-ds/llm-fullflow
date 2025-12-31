@@ -1,8 +1,7 @@
-from pre_trained.trainingLLM import token_ids_to_text, text_to_token_ids
 from pre_trained.gpt_download3 import download_and_load_gpt2
 from pre_trained.gpt_model import GPTModel
 from pre_trained.preTrained import load_weights_into_gpt
-from pre_trained.nextTokenGen import generate_text_simple
+from .dataLoaders import getDatasets
 import tiktoken
 
 CHOOSE_MODEL = "gpt2-small (124M)"
@@ -23,7 +22,7 @@ model_configs = {
 }
 
 BASE_CONFIG.update(model_configs[CHOOSE_MODEL])
-
+train_dataset, val_dataset, test_dataset = getDatasets()
 assert train_dataset.max_length <= BASE_CONFIG["context_length"], (
     f"Dataset length {train_dataset.max_length} exceeds model's context "
     f"length {BASE_CONFIG['context_length']}. Reinitialize data sets with "
@@ -34,32 +33,9 @@ model_size = CHOOSE_MODEL.split(" ")[-1].lstrip("(").rstrip(")")
 settings, params = download_and_load_gpt2(
     model_size=model_size, models_dir="gpt2")
 
-model = GPTModel(BASE_CONFIG)
-load_weights_into_gpt(model, params)
-model.eval()
 
-text_1 = "Every effort moves you"
-
-token_ids = generate_text_simple(
-    model=model,
-    idx=text_to_token_ids(text_1, tokenizer),
-    max_new_tokens=15,
-    context_size=BASE_CONFIG["context_length"]
-)
-
-print(token_ids_to_text(token_ids, tokenizer))
-
-text_2 = (
-    "Is the following text 'spam'? Answer with 'yes' or 'no':"
-    " 'You are a winner you have been specially"
-    " selected to receive $1000 cash or a $2000 award.'"
-)
-
-token_ids = generate_text_simple(
-    model=model,
-    idx=text_to_token_ids(text_2, tokenizer),
-    max_new_tokens=23,
-    context_size=BASE_CONFIG["context_length"]
-)
-
-print(token_ids_to_text(token_ids, tokenizer))
+def getModel():
+    model = GPTModel(BASE_CONFIG)
+    load_weights_into_gpt(model, params)
+    model.eval()
+    return model, BASE_CONFIG

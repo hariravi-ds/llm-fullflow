@@ -2,8 +2,10 @@ import time
 import matplotlib.pyplot as plt
 import torch
 from pre_trained.lossFunction import calc_loss_batch, calc_loss_loader, calc_accuracy_loader
+from dataLoaders import getDataLoaders
+from updateModel import updateModel
 
-# Overall the same as `train_model_simple` in chapter 5
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def train_classifier_simple(model, train_loader, val_loader, optimizer, device, num_epochs,
@@ -61,9 +63,9 @@ def evaluate_model(model, train_loader, val_loader, device, eval_iter):
 start_time = time.time()
 
 torch.manual_seed(123)
-
+model = updateModel()
 optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5, weight_decay=0.1)
-
+train_loader, val_loader, test_loader = getDataLoaders()
 num_epochs = 5
 train_losses, val_losses, train_accs, val_accs, examples_seen = train_classifier_simple(
     model, train_loader, val_loader, optimizer, device,

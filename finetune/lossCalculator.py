@@ -1,4 +1,6 @@
 import torch
+from updateModel import updateModel
+from dataLoaders import getDataLoaders
 
 
 def calc_accuracy_loader(data_loader, model, device, num_batches=None):
@@ -38,8 +40,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # print(f"Running on {device} device.")
 
 # no assignment model = model.to(device) necessary for nn.Module classes
+model = updateModel()
 model.to(device)
-
+train_loader, val_loader, test_loader = getDataLoaders()
 # For reproducibility due to the shuffling in the training data loader
 torch.manual_seed(123)
 

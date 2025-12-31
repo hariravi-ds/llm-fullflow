@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
-from transformer import TransformerBlock
-from layerNorm import LayerNorm
+from .transformer import TransformerBlock
+from .layerNorm import LayerNorm
 
 
 class GPTModel(nn.Module):

@@ -1,6 +1,6 @@
 import torch
-from nextTokenGen import generate_text_simple
-from lossFunction import calc_loss_batch, calc_loss_loader
+from .nextTokenGen import generate_text_simple
+from .lossFunction import calc_loss_batch, calc_loss_loader
 
 
 def evaluate_model(model, train_loader, val_loader, device, eval_iter):

@@ -1,7 +1,7 @@
-from gpt_model import GPTModel
-from gpt_download3 import download_and_load_gpt2
-from trainingLLM import text_to_token_ids, token_ids_to_text
-from topkSampling import generate
+from .gpt_model import GPTModel
+from .gpt_download3 import download_and_load_gpt2
+from .trainingLLM import text_to_token_ids, token_ids_to_text
+from .topkSampling import generate
 import tiktoken
 import numpy as np
 import torch
