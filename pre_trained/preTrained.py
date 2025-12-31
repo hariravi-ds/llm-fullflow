@@ -1,10 +1,10 @@
 from gpt_model import GPTModel
 from gpt_download3 import download_and_load_gpt2
-import numpy as np
-import torch
 from trainingLLM import text_to_token_ids, token_ids_to_text
 from topkSampling import generate
 import tiktoken
+import numpy as np
+import torch
 
 settings, params = download_and_load_gpt2(model_size="124M", models_dir="gpt2")
 tokenizer = tiktoken.get_encoding("gpt2")
